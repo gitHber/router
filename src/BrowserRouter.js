@@ -5,8 +5,6 @@
 import React, { useState, useCallback } from "react";
   
 export const RouterContext = React.createContext(window.location.pathname);
-let set;
-
 
 export default function({ children }) {
   const [url, setUrl] = useState(window.location.pathname);
