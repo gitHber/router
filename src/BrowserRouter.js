@@ -2,19 +2,22 @@
  * 2019-06-01
  * author: 李坤
  */
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
   
 export const RouterContext = React.createContext(window.location.pathname);
 let set;
-function popstate(e) {
-  set(window.location.pathname);
-}
+
 
 export default function({ children }) {
   const [url, setUrl] = useState(window.location.pathname);
-  set = setUrl;
-
-  window.addEventListener("popstate", popstate);
+  
+  useEffect(() => {
+    const popstate = (e) => {
+      setUrl(window.location.pathname);
+    }
+    window.addEventListener("popstate", popstate);
+    return () => window.removeEventListener("popstate", popstate);
+  }, [])
 
   const router = {
     history: {
